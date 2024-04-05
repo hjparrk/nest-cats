@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { SucessInterceptor } from 'src/common/interceptors/sucess/sucess.interceptor';
-import { CatDTO } from '../common/dto/cat/cat.dto';
-import { CatRequestDTO } from '../common/dto/cat/cat.request.dto';
+import { CatDTO } from './dto/cat.dto';
+import { CatRequestDTO } from './dto/cat.request.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('cats')
