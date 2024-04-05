@@ -1,53 +1,51 @@
-import {
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Put,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { CatsService } from './cats.service';
-import { PositiveIntPipe } from 'src/common/pipes/positive-int/positive-int.pipe';
 import { SucessInterceptor } from 'src/common/interceptors/sucess/sucess.interceptor';
+import { CatDTO } from '../common/dto/cat/cat.dto';
+import { CatRequestDTO } from '../common/dto/cat/cat.request.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('cats')
 @UseInterceptors(SucessInterceptor)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
+  @ApiOperation({ summary: 'Get a cat' })
   @Get()
-  getAll() {
-    // throw new HttpException('Get All Cats API Broken', 401);
-    return { cats: 'Get All Cats' };
+  get() {
+    return 'a cat';
   }
 
-  @Get(':id')
-  get(@Param('id', ParseIntPipe, PositiveIntPipe) id: number) {
-    console.log(`id: ${id}`);
-
-    return 'One Cat';
-  }
-
+  @ApiOperation({ summary: 'signup' })
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+    type: CatDTO,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error ...',
+  })
   @Post()
-  create() {
-    return 'New Cat';
+  async signup(@Body() body: CatRequestDTO) {
+    return await this.catsService.signup(body);
   }
 
-  @Put(':id')
-  update() {
-    return 'Update Cat';
+  @ApiOperation({ summary: 'login' })
+  @Post('login')
+  login() {
+    return 'login';
   }
 
-  @Patch(':id')
-  updatePartial() {
-    return 'Update Part of Cat';
+  @ApiOperation({ summary: 'logout' })
+  @Post('logout')
+  logout() {
+    return 'logout';
   }
 
-  @Delete(':id')
-  destroy() {
-    return 'delete cat';
+  @ApiOperation({ summary: 'upload cat image' })
+  @Post('upload/cats')
+  uploadCatImg() {
+    return 'uploaded img';
   }
 }
