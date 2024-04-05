@@ -63,15 +63,29 @@ export class Cat extends Document {
     name: string;
     imgUrl: string;
   };
+
+  readonly comments: Comment[];
 }
 
-export const CatSchema = SchemaFactory.createForClass(Cat);
+const _CatSchema = SchemaFactory.createForClass(Cat);
 
-CatSchema.virtual('readonlyData').get(function (this: Cat) {
+_CatSchema.virtual('readonlyData').get(function (this: Cat) {
   return {
     id: this.id,
     email: this.email,
     name: this.name,
     imgUrl: this.imgUrl,
+    comments: this.comments,
   };
 });
+
+_CatSchema.virtual('comments', {
+  ref: 'comments',
+  localField: '_id',
+  foreignField: 'info',
+});
+
+_CatSchema.set('toJSON', { virtuals: true });
+_CatSchema.set('toObject', { virtuals: true });
+
+export const CatSchema = _CatSchema;

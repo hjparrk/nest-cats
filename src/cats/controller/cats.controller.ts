@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { CatsService } from '../service/cats.service';
 import { SucessInterceptor } from 'src/common/interceptors/sucess/sucess.interceptor';
-import { CatDTO } from '../../common/dto/cat.dto';
-import { CatRequestDTO } from '../../common/dto/cat.request.dto';
+import { CatDTO } from '../../common/dto/cats/cat.dto';
+import { CatRequestDTO } from '../../common/dto/cats/cat.request.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
-import { LoginRequestDTO } from 'src/common/dto/login.request.dto';
+import { LoginRequestDTO } from 'src/common/dto/auth/login.request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';

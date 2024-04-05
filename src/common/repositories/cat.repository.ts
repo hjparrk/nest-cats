@@ -2,11 +2,15 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cat } from '../schemas/cat.schema';
 import { Model } from 'mongoose';
-import { CatRequestDTO } from '../dto/cat.request.dto';
+import { CatRequestDTO } from '../dto/cats/cat.request.dto';
+import { Comment } from '../schemas/comments.schema';
 
 @Injectable()
 export class CatRepository {
-  constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
+  constructor(
+    @InjectModel(Cat.name) private readonly catModel: Model<Cat>,
+    @InjectModel(Comment.name) private readonly commentModel: Model<Comment>,
+  ) {}
 
   async create(cat: CatRequestDTO): Promise<Cat> {
     return await this.catModel.create(cat);
@@ -40,7 +44,10 @@ export class CatRepository {
   }
 
   async findAll(): Promise<Cat[] | null> {
-    const cats = await this.catModel.find().select('-password');
+    const cats = await this.catModel
+      .find()
+      .select('-password')
+      .populate({ path: 'comments', model: this.commentModel });
     return cats;
   }
 }
