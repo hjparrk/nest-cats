@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Document, SchemaOptions } from 'mongoose';
 
 const options: SchemaOptions = {
@@ -50,16 +50,18 @@ export class Cat extends Document {
     description: 'image url',
     required: false,
   })
-  @Prop()
-  @IsOptional()
+  @Prop({
+    default:
+      'https://raw.githubusercontent.com/amamov/teaching-nestjs-a-to-z/main/images/1.jpeg',
+  })
   @IsString()
-  imgUrl: string | null;
+  imgUrl: string;
 
   readonly readonlyData: {
     id: string;
     email: string;
     name: string;
-    imgUrl: string | null;
+    imgUrl: string;
   };
 }
 
